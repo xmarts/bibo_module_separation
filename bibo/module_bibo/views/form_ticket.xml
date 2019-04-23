@@ -1,0 +1,98 @@
+<odoo>
+  <data>
+
+    <record id="seq_hr_employee" model="ir.sequence">
+      <field name="name">omega_sequencer</field>
+      <field name="code">ticket.employee</field>
+      <field name="active">TRUE</field>
+      <field name="prefix">ASIG/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">5</field>
+      <field name="implementation">standard</field>
+    </record>
+
+
+    <record id="action_modulo_data" model="ir.ui.view">
+      <field name="name">Asignación de tickets a empleados</field>
+      <field name="model">ticket.employee</field>
+      <field name="type">form</field>
+      <field name="target">inline</field>
+      <field name="arch" type="xml">
+        <form saved="false" create="false">
+           <script>
+            $(document).ready(function(){
+              $(".modal-footer").hide();
+            });
+          </script>
+          <header></header>
+          <sheet>
+            <group>
+              <group>
+                <field name="employee"/>
+                <field name="sele_fec"/>
+                <field invisible="1" name="comprobacion_error"/>
+              </group>
+              <group>
+                <field name="busc_bar" />
+                <field name="mensaje" />
+              </group>
+            </group>
+          </sheet>
+        </form>
+        <div class="row pull-right">
+              <div class="col-xs-3" style="padding: 10px;">
+                <button name="d(to_unlock)%" type="action" string="Desbloquear" attrs="{'invisible': [('comprobacion_error', '=', False)]}" class="btn-primary"/>
+              </div>
+        </div>
+      </field>
+    </record>
+
+    <!--<record id="ticket_form_Add" model="ir.actions.act_window">
+      <field name='name'>Asignación de tickets</field>
+      <field name='res_model'>ticket.employee</field>
+      <field name='view_mode'>tree,form</field>
+    </record>-->
+
+    <record id="action_modulo_tickets_tree" model="ir.ui.view">
+      <field name="name">Tickets</field>
+      <field name="model">ticket.nomina</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+        <tree edit="false" create="false">
+          <field name="id_prod" />
+          <field name="tic_emp" />
+          <field name="bar_code" />
+          <field name="name_ope" />
+          <field name="ref_prod" />
+          <field name="date_rea" />
+          <field name="date_lec" />
+          <field name="can_prod" />
+          <field name="cost_tot" />
+          <field name="hand_ope" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="tickets_form_Add" model="ir.actions.act_window">
+      <field name='name'>Tickets</field>
+      <field name='res_model'>ticket.nomina</field>
+      <field name='view_mode'>tree,form</field>
+    </record>
+
+    <record id="action_view_wizard" model="ir.actions.act_window">
+            <field name="name">Asignación de tickets</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ticket.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="action_modulo_data"/>
+            <field name="target">new</field>
+        </record>
+
+    <menuitem name="Tickets" id="menu-item1" parent="mrp.menu_mrp_root" />
+    <menuitem name="Asignación de tickets" id="menu-item2" parent="menu-item1" action="action_view_wizard" />
+    <menuitem name="Tickets" id="menu-item3" parent="menu-item1" action="tickets_form_Add" />
+
+  </data>
+</odoo>
